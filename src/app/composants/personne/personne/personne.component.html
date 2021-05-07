@@ -1,0 +1,49 @@
+<form #myForm="ngForm" (ngSubmit)="savePerson()">
+    <div class="form-group">
+        <label for="nom">Nom:</label>
+        <input class="form-control" type="text" name="nom" [(ngModel)]="personne.nom" required #nom="ngModel">
+    </div>
+    <div [hidden]="nom.valid || nom.pristine">
+        le nom est obligatoire
+    </div>
+    <div class="form-group">
+        <label for="prenom">Prenom:</label>
+        <input class="form-control" type="text" name="prenom" [(ngModel)]="personne.prenom" required #prenom="ngModel"> 
+    </div>
+    <div [hidden]="prenom.valid || prenom.pristine">
+        le prenom est obligatoire
+    </div>
+    <div class="form-group">
+        <label for="salaire">Salaire:</label>
+        <input class="form-control" type="number" name="salaire" [(ngModel)]="personne.salaire" required #salaire="ngModel"> 
+    </div>
+    <div [hidden]="salaire.valid || salaire.pristine">
+        le salaire est obligatoire
+    </div>
+    <div class="form-group">
+        <label for="prenom">Ville:</label>
+        <input class="form-control" type="text" name="ville" [(ngModel)]="personne.ville" required #ville="ngModel"> 
+    </div>
+    <div [hidden]="ville.valid || ville.pristine">
+        le ville est obligatoire
+    </div>
+    <div>
+        <button class="btn btn-success" [disabled]="!myForm.valid">
+            Ajouter
+        </button>
+    </div>
+</form>
+<ul class="list-group">
+    <li *ngFor="let elt of personnes" class="list-group-item">
+        {{ elt.nom }} {{ elt.prenom }} {{ elt.salaire }} {{ elt.ville }}
+        <button class="btn btn-success" (click)="personDetails(elt.id)">
+            Select
+        </button>
+        <button class="btn btn-danger" (click)="deletePerson(elt.id)">
+            Supprimer
+        </button>
+        <button class="btn btn-primary" (click)="personEdit(elt.id)">
+            Edit
+        </button>
+    </li>
+</ul>

@@ -1,0 +1,22 @@
+<h2>Rocket Details</h2>
+<hr />
+<div *ngIf="rocket">
+    <div>
+        <label><b>Id :</b> {{ rocket.id }}</label>
+    </div>
+    <div>
+        <label><b>Nom :</b> {{ rocket.nom }}</label>
+    </div>
+    <div>
+        <label><b>Prenom :</b> {{ rocket.annee_fab }}</label>
+    </div>
+    <div>
+        <label><b>Salaire :</b> {{ rocket.organisation }}</label>
+    </div>
+    <div>
+        <label><b>Ville :</b> {{ rocket.destination }}</label>
+    </div>
+    <button (click)="backToRocketList()">
+        Retour
+    </button>
+</div>

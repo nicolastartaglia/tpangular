@@ -1,0 +1,50 @@
+<form #myForm="ngForm" (ngSubmit)="saveRocket()">
+  <div class="form-group">
+      <label for="nom">Nom:</label>
+      <input class="form-control" type="text" name="nom" [(ngModel)]="rocket.nom" required #nom="ngModel">
+  </div>
+  <div [hidden]="nom.valid || nom.pristine">
+      le nom est obligatoire
+  </div>
+  <div class="form-group">
+      <label for="anneefab">Année de fabrication:</label>
+      <input class="form-control" type="date" name="anneefab" [(ngModel)]="rocket.annee_fab" required #annee_fab="ngModel">
+  </div>
+  <div [hidden]="annee_fab.valid || annee_fab.pristine">
+      l'année de fabrication est obligatoire
+  </div>
+  <div class="form-group">
+      <label for="organisation">Organisation:</label>
+      <input class="form-control" type="text" name="orgnisation" [(ngModel)]="rocket.organisation" required #organisation="ngModel">
+  </div>
+  <div [hidden]="organisation.valid || organisation.pristine">
+      l'organisation est obligatoire
+  </div>
+  <div class="form-group">
+      <label for="destination">Destination:</label>
+      <input class="form-control" type="text" name="destination" [(ngModel)]="rocket.destination" required #destination="ngModel">
+  </div>
+  <div [hidden]="destination.valid || destination.pristine">
+      la destination est obligatoire
+  </div>
+  <div>
+      <button class="btn btn-success" [disabled]="!myForm.valid">
+          Ajouter
+      </button>
+  </div>
+</form>
+
+<ul class="list-group">
+  <li *ngFor="let elt of rockets" class="list-group-item">
+      {{ elt.nom }} {{ elt.annee_fab }} {{ elt.organisation }} {{ elt.destination }}
+      <button class="btn btn-success" (click)="rocketDetails(elt.id)">
+          Select
+      </button>
+      <button class="btn btn-danger" (click)="deleteRocket(elt.id)">
+          Supprimer
+      </button>
+      <button class="btn btn-primary" (click)="rocketEdit(elt.id)">
+          Edit
+      </button>
+  </li>
+</ul>

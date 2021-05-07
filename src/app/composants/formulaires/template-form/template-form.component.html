@@ -1,0 +1,49 @@
+<form #myForm="ngForm" (ngSubmit)=ajouterPersonne(myForm)>
+    <div class="form-group">
+        <label for="nom">Nom:</label>
+        <input class="form-control" type="text" name="nom" [(ngModel)]="personne.nom" required #nom="ngModel">
+    </div>
+    <div [hidden]="nom.valid || nom.pristine">
+        le nom est obligatoire
+    </div>
+    <div class="form-group">
+        <label for="prenom">Prenom:</label>
+        <input class="form-control" type="text" name="prenom" [(ngModel)]="personne.prenom" required #prenom="ngModel"> 
+    </div>
+    <div [hidden]="prenom.valid || prenom.pristine">
+        le prenom est obligatoire
+    </div>
+    <div>
+        <button class="btn btn-success" [disabled]="!myForm.valid">
+            Ajouter
+        </button>
+    </div>
+</form>
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let personne of personnes; index as i">
+        {{ personne.nom }} {{ personne.prenom }}
+        <!-- <button type="submit" class="btn btn-danger" (click)="supprimerPersonne(personne)">
+            supprimer
+        </button> -->
+        <button type="submit" class="btn btn-danger" (click)="supprimerP(i)">
+            supprimer
+        </button>
+    </li>
+</ul>
+
+<!-- Exercice 1
+
+Modifier le composant formulaire pour afficher les personnes
+ajoutees en-dessous du formulaire
+A chaque ajout, la nouvelle personne ajoutee apparaıt comme
+dernier element de la liste des personnes (affichee en-dessous du
+formulaire)
+
+Exercice 2
+
+Creez un composant calculette (n’oubliez pas de lui associer
+une route calculette)
+Dans calculette.component.html, definissez deux champs
+input de type number et quatre boutons : un pour chaque
+operation arithmetique
+Le resultat sera affiche en-dessous du formulaire. -->

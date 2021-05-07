@@ -1,0 +1,130 @@
+<form [formGroup]="personneForm" (ngSubmit)="afficherTout()">
+    <h3>Personne</h3>
+    <div class="form-group">
+        <label for="id">Id :</label>
+        <input class="form-control" type="number" name="id" formControlName="id">
+    </div>
+    <div *ngIf="personneForm.controls['id'].invalid && (personneForm.controls['id'].dirty || 
+        personneForm.controls['id'].touched)" class="alert alert-danger">
+        <div *ngIf="personneForm.controls['id'].errors?.required">
+            L'identifiant est obligatoire
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="nom">Nom :</label>
+        <input class="form-control" type="text" name="nom" formControlName="nom">
+    </div>
+    <div *ngIf="personneForm.controls['nom'].invalid && (personneForm.controls['nom'].dirty || personneForm.controls['nom'].touched)"
+        class="alert alert-danger">
+        <div *ngIf="personneForm.controls['nom'].errors?.required">
+            Le nom est obligatoire
+        </div>
+        <div *ngIf="personneForm.controls['nom'].errors?.erreur">
+            Premiere lettre en majuscule et compris entre 3 et 11 caractères
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="prenom">Prenom :</label>
+        <input class="form-control" type="text" name="prenom" formControlName="prenom">
+    </div>
+    <div *ngIf="personneForm.controls['prenom'].invalid && (personneForm.controls['prenom'].dirty || personneForm.controls['prenom'].touched)"
+        class="alert alert-danger">
+        <div *ngIf="personneForm.controls['prenom'].errors?.required">
+            Le prenom est obligatoire
+        </div>
+        <div *ngIf="personneForm.controls['prenom'].errors?.erreur">
+            Premiere lettre en majuscule
+        </div>
+    </div>
+    <div formGroupName="adresse">
+        <h3>Adresse</h3>
+        <div class="form-group">
+            <label for="rue">Rue :</label>
+            <input class="form-control" type="text" name="rue" formControlName="rue">
+        </div>
+        <div *ngIf="adresse.controls['rue'].invalid && (adresse.controls['rue'].dirty || 
+        adresse.controls['rue'].touched)" class="alert alert-danger">
+            <div *ngIf="adresse.controls['rue'].errors?.required">
+                La rue est obligatoire
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="ville">ville :</label>
+            <input class="form-control" type="text" name="ville" formControlName="ville">
+        </div>
+        <div *ngIf="adresse.controls['ville'].invalid && (adresse.controls['ville'].dirty || 
+        adresse.controls['ville'].touched)" class="alert alert-danger">
+            <div *ngIf="adresse.controls['ville'].errors?.required">
+                La ville est obligatoire
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="codePostal">Code Postal :</label>
+            <input class="form-control" type="text" name="codePostal" formControlName="codePostal">
+        </div>
+        <div *ngIf="adresse.controls['codePostal'].invalid && (adresse.controls['codePostal'].dirty || 
+        adresse.controls['codePostal'].touched)" class="alert alert-danger">
+            <div *ngIf="adresse.controls['codePostal'].errors?.required">
+                Le code postal est obligatoire
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div formArrayName="sports" #el>
+        <h3 style="display: contents;">Sports </h3>
+        <button class="btn btn-primary" type=button (click)="ajouterSport()">
+            Ajouter sport
+        </button>
+        <div *ngFor="let sport of sports.controls; let i= index">
+            <div class="form-group">
+                <label for="sport">Sport:</label>
+                <input class="form-control" type="text" [formControlName]="i">
+                <button class="btn btn-danger" type=button (click)="supprimerSport(i)">
+                    supp
+                </button>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="!personneForm.valid">
+        Envoyer
+    </button>
+    <div>
+        état : {{ personneForm.status }}
+    </div>
+</form>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Prenom</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Rue</th>
+                <th scope="col">Sports</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let elt of personnes;">
+            <tr>
+                <td>{{ elt.id }}</td>
+                <td>{{ elt.prenom }}</td>
+                <td>{{ elt.nom }}</td>
+                <td>{{ elt.adresse.rue }}</td>
+                <span *ngFor="let subItem of elt.sports">
+                    <td>{{ subItem }}</td>
+                </span>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Exercice
+Dans un nouveau composant, creer un formulaire qui permet a
+une personne de saisir son nom, son prenom ainsi qu’un tableau
+de commentaire de taille variable.
+Chaque commentaire est compose d’un titre, un contenu et une
+categorie.
+En cliquant sur Ajouter, les donnees saisies sont affichees en
+bas du formulaire et le formulaire est vide.
+Aucun champ ne doit  etre vide a l’ajout, les nom et prenom
+doivent commencer par une lettre majuscule. -->

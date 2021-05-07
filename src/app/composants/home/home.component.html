@@ -1,0 +1,265 @@
+<div class="container">
+    <!-- Pour afficher le contenu de l’attribut title dans le template, on peut utiliser
+    l’interpolation -->
+    <h3>{{ title }}</h3>
+    <!-- On peut aussi faire le one way binding en utilisant la propri´ et ´e JavaScript
+    textContent -->
+    <p [textContent]="title"></p>
+    <!-- Afficher l’objet personne -->
+    <ul>
+        <li>Nom : {{ personne.nom }}</li>
+        <li>Prenom : {{ personne.prenom }}</li>
+        <li>{{ personne | json }}</li>
+    </ul>
+    <!-- Afficher le tableau tab -->
+    <ul>
+        <li>{{ tab[0] }}</li>
+        <li>{{ tab[1] }}</li>
+        <li>{{ tab[2] }}</li>
+    </ul>
+    <p>{{ direBonjour() }}</p>
+
+    <!-- Directives 
+
+    - Avec les directives intégrées d'Angular, vous pouvez gérer les 
+    formulaires, les listes, les styles et ce que les utilisateurs voient.
+    - Les directives sont des classes qui ajoutent un comportement supplémentaire 
+    aux éléments de vos applications
+
+    - *ngFor = permet de repeter un traitement (affichage d’un element HTML)
+    - s’utilise comme un attribut de balise et sa valeur est une instruction iterative TypeScript 
+    
+    -->
+
+    <!-- pour avoir l’indice de l’iteration courante 
+    
+    - On peut aussi utiliser first pour savoir si l’ element courant est le premier de la
+    liste
+    
+    Autres parametres possible
+
+    last : retourne true si l’ element courant est le dernier de la liste, false sinon.
+    even : retourne true si l’indice de l’ element courant est pair, false sinon.
+    odd : retourne true si l’indice de l’ element courant est impair, false sinon.
+    
+    -->
+    <ul>
+        <li *ngFor="let elt of tab; let i = index; let isFirst = first">
+            {{ i }} : {{ elt }} : {{ isFirst }}
+        </li>
+    </ul>
+
+    <!-- Pour tester puis afficher si le premier element est impair -->
+    <ul>
+        <li *ngIf="tab[0] % 2 != 0">
+            {{ tab[0] }} est impair
+        </li>
+    </ul>
+
+    <!-- Ecrire un code HTML, en utilisant les directives Angular, qui permet
+    d’afficher le premier element du tableau (tab) ainsi que sa parite (pair
+    ou impair). 
+
+    Les directives s’utilisent conjointement avec les composants web suivants
+
+    - ng-container
+    - ng-template
+
+    -->
+    <!-- Une premiere solution avec *ngIf et else -->
+    <ul>
+        <li *ngIf="tab[0] % 2 != 0; else sinon">
+            {{ tab[0] }} est impair
+        </li>
+        <ng-template #sinon>
+            <li>
+                {{ tab[0] }} est pair
+            </li>
+        </ng-template>
+    </ul>
+    <!-- Une deuxieme solution avec *ngIf, then et else -->
+    <ul>
+        <li *ngIf="tab[0] % 2 != 0; then si else sinon">
+            Ce texte ne sera jamais affichée
+        </li>
+        <ng-template #si>
+            <li>
+                {{ tab[0] }} est impair
+            </li>
+        </ng-template>
+        <ng-template #sinon>
+            <li>
+                {{ tab[0] }} est pair
+            </li>
+        </ng-template>
+    </ul>
+
+    <!-- Ecrire un code HTML, en utilisant les directives Angular, qui permet
+    d’afficher sous forme d’une liste chaque element du tableau precedent
+    (tab) ainsi que sa parite. -->
+
+    <!-- <ul>
+        <ng-container *ngFor="let elt of tab">
+            <li *ngIf="elt % 2 != 0; then si else sinon">
+                Ce texte ne sera jamais affichée
+            </li>
+            <ng-template #si>
+                <li>
+                    {{ elt }} est impair
+                </li>
+            </ng-template>
+            <ng-template #sinon>
+                <li>
+                    {{ elt }} est pair
+                </li>
+            </ng-template>
+        </ng-container>
+    </ul> -->
+
+    <ul *ngFor="let elt of tab">
+        <li *ngIf="elt % 2 != 0; else sinon">
+            {{ elt }} est impair
+        </li>
+        <ng-template #sinon>
+            <li>
+                {{ elt }} est pair
+            </li>
+        </ng-template>
+    </ul>
+
+    <ul>
+        <ng-container *ngFor="let elt of tab">
+            <ng-container [ngSwitch]="elt">
+                <li *ngSwitchCase="1">
+                    {{ elt }} = un
+                </li>
+                <li *ngSwitchCase="2">
+                    {{ elt }} = deux
+                </li>
+                <li *ngSwitchCase="3">
+                    {{ elt }} = trois
+                </li>
+                <li *ngSwitchDefault>
+                    {{ elt }} = autre
+                </li>
+            </ng-container>
+        </ng-container>
+    </ul>
+
+    <!-- Ecrire un code HTML, en utilisant les directives Angular, qui permet
+          d’afficher sous forme d’une liste chaque element du tableau precedent
+          avec un message defini ainsi :
+          Si la valeur est comprise entre 0 et 9 : echec
+          Si elle est entre 10 et 13 : moyen
+          Si elle est entre 14 et 16 : bien
+          Sinon : tres bien -->
+    <ul>
+        <ng-container *ngFor="let elt of tab">
+            <ng-container [ngSwitch]="true">
+                <li *ngSwitchCase=" elt >= 0 && elt <= 9 ">
+                    {{ elt }} : echec
+                </li>
+                <li *ngSwitchCase=" elt >= 10 && elt <= 13 ">
+                    {{ elt }} : moyen
+                </li>
+                <li *ngSwitchCase=" elt >= 14 && elt <= 16 ">
+                    {{ elt }} : bien
+                </li>
+                <li *ngSwitchCase=" elt > 16 ">
+                    {{ elt }} : tres bien
+                </li>
+                <li *ngSwitchDefault>
+                    autre
+                </li>
+            </ng-container>
+        </ng-container>
+    </ul>
+
+    <!-- ngStyle permet de modifier le style d’un element HTML
+    s’utilise conjointement avec le property binding pour recuperer
+    des valeurs definies dans la classe -->
+    <p [textContent]=nom [ngStyle]="{ backgroundColor: 'red'}"></p>
+
+    <p [textContent]=nom [ngStyle]="{ backgroundColor: couleur }"></p>
+
+    <p [textContent]=nom [ngStyle]="{ color:getColor(), backgroundColor: getBackgroundColor() }"></p>
+
+    <!-- ngClass permet d’attribuer de nouvelles classes d’un element HTML
+    s’utilise conjointement avec le property binding pour recuperer
+    des valeurs definies dans la classe ou dans la feuille de style -->
+
+    <!-- Pour associer la classe rouge a la balise p -->
+    <p [ngClass]="{'rouge': true}">
+        {{ nom }}
+    </p>
+
+    <p [ngClass]="{'rouge': nom == 'wick', 'bleu': nom != 'wick'}">
+        {{ nom }}
+    </p>
+
+    <p [ngClass]="nom == 'wick' ? 'rouge' : 'bleu'">
+        {{ nom }}
+    </p>
+
+    <!-- Utiliser ngClass dans un code HTML permettant d’afficher en bleu les
+    elements pairs du tableau precedent (tab) et en rouge les elements impairs. -->
+
+    <ul>
+        <ng-container *ngFor="let elt of tab">
+            <li [ngClass]="elt % 2 == 0 ? 'bleu' : 'rouge'">
+                {{ elt }}
+            </li>
+        </ng-container>
+    </ul>
+
+    <!-- Ecrire un script Angular qui permet d’afficher dans une liste HTML les
+    elements de la liste personne (on affiche que les nom et prenom). Les
+    elements d’indice pair seront affiches en rouge, les impairs en bleu. -->
+
+    <ng-container *ngFor="let elt of personnes; let i = index;">
+        <li [ngClass]="i % 2 != 0 ? 'rouge' : 'bleu'">
+          {{ elt.nom + " " + elt.prenom }}
+        </li>
+    </ng-container>
+
+    <!--  Q1 Ecrire un script Angular qui permet d’afficher dans une liste HTML les
+    elements de la liste taches (on affiche que les nom et status). Afficher les taches qui
+    qui sont terminées, cad, qui ont le statut DONE  -->
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Reste A faire</h2>
+                <ul class="list-group">
+                    <ul *ngFor="let elt of tasks">
+                        <div *ngIf="elt.status === 'done'">
+                            <h4 [ngStyle]="{color: getC(elt)}">Tache : {{ elt.name }} -- Statut : {{ elt.status }}</h4>
+                        </div>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Q2 Vous modifierez votre code précédant en implementant la directive ngClass qui selon le statut de la liste
+    tache la couleur variera (rouge ou bleu)
+    Les taches qui ont le statut Done seront affichées en bleu sinon en rouge
+    -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Reste A faire</h2>
+                <ul class="list-group">
+                    <ul *ngFor="let elt of tasks">
+                        <div [ngClass]="elt.status === 'done' ? 'bleu' : 'rouge' ">
+                            <h4>Tache : {{ elt.name }} -- Status : {{ elt.status }}</h4>
+                        </div>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
